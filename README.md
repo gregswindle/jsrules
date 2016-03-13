@@ -82,7 +82,7 @@ ruleContext.addVariable('minNumPeople', null);
 // Evaluate
 var result = rule.evaluate(ruleContext);
 
-// Print the resulting Proposition
+// Log the resulting Proposition
 console.log(result.toString());
 
 // OUTPUT:
@@ -127,9 +127,7 @@ fact.addProposition('passengerIsEconomy', true)
     .addVariable('passengerCarryOnBaggageWeight', 10.0)
     .addVariable('passengerCarryOnBaggageAllowance', null);
 
-// Print the resulting Proposition using the
-// PHP magic method __toString.
-// (You could also call the toString() method.)
+// Log the resulting Proposition
 console.log(rule.evaluate(fact));
 
 // Outputs (as a single string; newlines added here for readability):

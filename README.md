@@ -147,3 +147,28 @@ This module is installed via npm:
 ``` bash
 $ npm install jsrules
 ```
+
+## Specs/tests
+
+Execute unit tests with either
+
+```bash
+$ grunt test
+```
+
+or
+
+```bash
+$ npm test
+```
+
+## Development roadmap
+
+1. Quality assurance
+    1. Code coverage with `istanbul`.
+    2. `travis-ci` integration.
+    3. Complexity reports.
+2. Persistence: create examples where
+    1. `Rules` are created, read, updated, and deleted (e.g., Redis or MongoDB)
+    2. `RuleContexts` (facts) are retrieved from multiple data stores
+3. Universally-unique identifiers: create a `uuid` property for `Rules`, `RuleContexts`, and `RuleElements` (`Propositions`, `Variables`, and `Operators`)

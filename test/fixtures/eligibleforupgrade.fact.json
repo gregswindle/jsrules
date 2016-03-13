@@ -1,0 +1,30 @@
+{
+   "name": "eligibleForAirlineUpgrade",
+   "elements": [
+      {
+         "name": "passengerIsEconomy",
+         "value": true,
+         "type": "jsrules.Proposition"
+      },
+      {
+         "name": "passengerIsGoldCardHolder",
+         "value": null,
+         "type": "jsrules.Proposition"
+      },
+      {
+         "name": "passengerIsSilverCardHolder",
+         "value": false,
+         "type": "jsrules.Proposition"
+      },
+      {
+         "name": "passengerCarryOnBaggageWeight",
+         "value": null,
+         "type": "jsrules.Variable"
+      },
+      {
+         "name": "passengerCarryOnBaggageAllowance",
+         "value": 15,
+         "type": "jsrules.Variable"
+      }
+   ]
+}

@@ -67,7 +67,7 @@ rule.addVariable('minNumPeople', 6);
 
 // Compare the two, i.e.,
 // actualNumPeople >= minNumPeople
-rule.addOperator(Operator::GREATER_THAN_OR_EQUAL_TO);
+rule.addOperator(Operator.GREATER_THAN_OR_EQUAL_TO);
 
 // Create a RuleContext, i.e., a "Fact"
 var ruleContext = new jsrules.RuleContext('eligibleForGroupDiscountFact');

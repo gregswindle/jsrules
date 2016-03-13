@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "author": "Greg Swindle <greg@swindle.net>",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/gregswindle/jsrules/issues"
   },

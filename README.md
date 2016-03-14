@@ -1,6 +1,6 @@
-# jsrules
+# `jsrules`
 
-jsrules is a rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.
+`jsrules` is a rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.
 
 [![build status](https://secure.travis-ci.org/gregswindle/jsrules.png)](http://travis-ci.org/gregswindle/jsrules)
 
@@ -25,8 +25,8 @@ Rules are defined and stored as JSON. They consist of
 Executing a Rule is simple. Suppose we have a very simple rule that checks whether a customer is eligible for a discount. In order to be eligible, the customer simply needs to be a Gold Card holder.
 
 ```javascript
-// Create the rule
 var jsrules = require('jsrules');
+// Create the rule
 var rule = new jsrules.Rule('eligibleForDiscount');
 
 // Add a Proposition, i.e., a statement that has a value of true or false
@@ -67,7 +67,7 @@ rule.addVariable('minNumPeople', 6);
 
 // Compare the two, i.e.,
 // actualNumPeople >= minNumPeople
-rule.addOperator(Operator.GREATER_THAN_OR_EQUAL_TO);
+rule.addOperator(jsrules.Operator.GREATER_THAN_OR_EQUAL_TO);
 
 // Create a RuleContext, i.e., a "Fact"
 var ruleContext = new jsrules.RuleContext('eligibleForGroupDiscountFact');
@@ -110,15 +110,15 @@ var rule = new jsrules.Rule('eligibleForUpgrade');
 rule.addProposition('passengerIsEconomy', true)
     .addProposition('passengerIsGoldCardHolder', true)
     .addProposition('passengerIsSilverCardHolder', true)
-    .addOperator(Operator.OR)
-    .addOperator(Operator.AND)
+    .addOperator(jsrules.Operator.OR)
+    .addOperator(jsrules.Operator.AND)
     .addVariable('passengerCarryOnBaggageWeight', null)
     .addVariable('passengerCarryOnBaggageAllowance', 15.0)
-    .addOperator(Operator.LESS_THAN_OR_EQUAL_TO)
-    .addOperator(Operator.AND);
+    .addOperator(jsrules.Operator.LESS_THAN_OR_EQUAL_TO)
+    .addOperator(jsrules.Operator.AND);
 
 // Create the RuleContext
-var fact = new RuleContext('eligibleForUpgradeFact');
+var fact = new jsrules.RuleContext('eligibleForUpgradeFact');
 
 // Load it with the facts about the passenger
 fact.addProposition('passengerIsEconomy', true)
@@ -132,12 +132,12 @@ console.log(rule.evaluate(fact));
 
 // Outputs (as a single string; newlines added here for readability):
 // Proposition statement = (
-//   (passengerIsEconomy AND (
-//     passengerIsGoldCardHolder OR passengerIsSilverCardHolder)
-//    ) AND (
-//      passengerCarryOnBaggageWeight <= passengerCarryOnBaggageAllowance
-//    )
-//  ), value = true
+//  (passengerIsEconomy AND 
+//    (passengerIsGoldCardHolder OR passengerIsSilverCardHolder)
+//  ) AND (
+//    passengerCarryOnBaggageWeight <= passengerCarryOnBaggageAllowance
+//  )
+// ), value = true
 ```
 
 ## Installation
@@ -165,10 +165,10 @@ $ npm test
 ## Development roadmap
 
 1. Quality assurance
-    1. Code coverage with `istanbul`.
-    2. `travis-ci` integration.
-    3. Complexity reports.
+  1. Code coverage with `istanbul`.
+  2. `travis-ci` integration.
+  3. Complexity reports.
 2. Persistence: create examples where
-    1. `Rules` are created, read, updated, and deleted (e.g., Redis or MongoDB)
-    2. `RuleContexts` (facts) are retrieved from multiple data stores
+  1. `Rules` are created, read, updated, and deleted (e.g., Redis or MongoDB)
+  2. `RuleContexts` (facts) are retrieved from multiple data stores
 3. Universally-unique identifiers: create a `uuid` property for `Rules`, `RuleContexts`, and `RuleElements` (`Propositions`, `Variables`, and `Operators`)

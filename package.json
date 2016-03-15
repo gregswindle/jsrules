@@ -24,7 +24,9 @@
     "grunt-complexity": "^0.3.0",
     "grunt-contrib-jshint": "^0.11.3",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-istanbul": "^0.7.0",
-    "grunt-mocha-cli": "^2.0.0"
+    "grunt-mocha-cli": "^2.0.0",
+    "grunt-mocha-istanbul": "^3.0.1",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5"
   }
 }

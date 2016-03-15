@@ -25,6 +25,16 @@
          "name": "passengerCarryOnBaggageAllowance",
          "value": 15,
          "type": "jsrules.Variable"
+      },
+      {
+         "name": "currentDate",
+         "value": "2016-03-14T23:58:12.589Z",
+         "type": "jsrules.DateVariable"
+      },
+      {
+         "name": "undefinedEntry",
+         "value": null,
+         "type": "jsrules.UndefinedType"
       }
    ]
 }

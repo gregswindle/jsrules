@@ -1,6 +1,11 @@
 'use strict';
 var Rule, stack, Operator, Proposition, Variable, RuleContext;
 
+function isVariable(ruleElement) {
+  var pattern = /jsrules\.[a-z$]*Variable/ig;
+  return pattern.test(ruleElement.type);
+}
+
 Operator = require('./operator');
 Proposition = require('./proposition');
 Variable = require('./variable');
@@ -26,7 +31,7 @@ Rule = function(name) {
     elements = [];
     for (i = 0; i < this.elements.length; i++) {
       element = this.elements[i];
-      if ('jsrules.Proposition' === element.type || 'jsrules.Variable' === element.type) {
+      if ('jsrules.Proposition' === element.type || isVariable(element)) {
         elem = ruleContext.findElement(element);
         if (null === element.value) {
           element.value = elem.value;
@@ -34,12 +39,7 @@ Rule = function(name) {
         else if (null === elem.value) {
           elem.value = element.value;
         }
-        if (elem) {
-          element.value = elem.value;
-        }
-        else {
-          element.value = null;
-        }
+        element.value = elem.value;
       }
     }
     return process(this.elements);
@@ -58,7 +58,7 @@ function process(elements) {
     else if ('jsrules.Proposition' === element.type) {
       processProposition(element);
     }
-    else if ('jsrules.Variable' === element.type) {
+    else if (isVariable(element)) {
       processVariable(element);
     }
     else {

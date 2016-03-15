@@ -60,6 +60,12 @@ describe('jsrules.Rule', function() {
   });
 
   it('evaluates complex rules', function() {
+    var deadline, currentDate;
+    deadline = new Date();
+    deadline.setFullYear(deadline.getFullYear() + 1);
+
+    currentDate = new Date();
+
     rule = new jsrules.Rule('eligibleForAirlineUpgrade');
     rule.addProposition('passengerIsEconomy', true)
         .addProposition('passengerIsGoldCardHolder', true)
@@ -69,14 +75,47 @@ describe('jsrules.Rule', function() {
         .addVariable('passengerCarryOnBaggageWeight', null)
         .addVariable('passengerCarryOnBaggageAllowance', 15.0)
         .addOperator(jsrules.Operator.LESS_THAN_OR_EQUAL_TO)
-        .addOperator(jsrules.Operator.AND);
+        .addOperator(jsrules.Operator.AND)
+        .addVariable('deadline', deadline)
+        .addVariable('currentDate', null)
+        .addOperator(jsrules.Operator.GREATER_THAN_OR_EQUAL_TO)
+        .addVariable('passengerBaggageCount', null)
+        .addVariable('passengerBaggageCountMax', 2)
+        .addOperator(jsrules.Operator.LESS_THAN)
+        .addVariable('actualPassengerCreditCardType', null)
+        .addVariable('allowedPassengerCreditCardType', 'jsrules Airlines')
+        .addOperator(jsrules.Operator.EQUAL_TO)
+        .addProposition('airlineEmployee', null)
+        .addOperator(jsrules.Operator.NOT)
+        .addVariable('passengerAge', null)
+        .addVariable('passengerAgeMin', 10)
+        .addOperator(jsrules.Operator.GREATER_THAN)
+        .addVariable('passengerCarrying', null)
+        .addVariable('passengerNoCarryItem', 'firearm')
+        .addOperator(jsrules.Operator.NOT_EQUAL_TO)
+        .addProposition('passengerNoFlyListEntry', null)
+        .addProposition('passengerNoFlyListException', null)
+        .addOperator(jsrules.Operator.XOR);
 
      fact = new jsrules.RuleContext('eligibleForAirlineUpgrade');
      fact.addProposition('passengerIsEconomy', true)
          .addProposition('passengerIsGoldCardHolder', true)
          .addProposition('passengerIsSilverCardHolder', false)
          .addVariable('passengerCarryOnBaggageWeight', 10.0)
-         .addVariable('passengerCarryOnBaggageAllowance', null);
+         .addVariable('passengerCarryOnBaggageAllowance', null)
+         .addVariable('deadline', null)
+         .addVariable('currentDate', currentDate)
+         .addVariable('passengerBaggageCount', 1)
+         .addVariable('passengerBaggageCountMax', null)
+         .addVariable('actualPassengerCreditCardType', 'jsrules Airlines')
+         .addVariable('allowedPassengerCreditCardType', null)
+         .addProposition('airlineEmployee', false)
+         .addVariable('passengerAge', 11)
+         .addVariable('passengerAgeMin', null)
+         .addVariable('passengerCarrying', 'firearm')
+         .addVariable('passengerNoCarryItem', null)
+         .addProposition('passengerNoFlyListEntry', false)
+         .addProposition('passengerNoFlyListException', true);
 
     result = rule.evaluate(fact);
     expect(result.value).to.be.equal(true);
@@ -89,6 +128,29 @@ describe('jsrules.Rule', function() {
         .addProposition('isSilverCardMember', true)
         .addOperator(jsrules.Operator.OR);
     expect(JSON.stringify(rule)).to.be.equal('{"name":"cardHolder","elements":[{"name":"isGoldCardMember","value":false,"type":"jsrules.Proposition"},{"name":"isSilverCardMember","value":true,"type":"jsrules.Proposition"},{"name":"OR","type":"jsrules.Operator"}]}');
+  });
+
+  it('throws a TypeError if an invalid RuleElement is provided', function() {
+    function isInvalidRuleElementErrorThrown() {
+      var isThrown = false;
+      rule = new jsrules.Rule('fooBar');
+      rule.elements.push({
+        name: 'Foo',
+        value: null,
+        type: 'FooBar'
+      });
+      fact = new jsrules.RuleContext('fooBarFact');
+      fact.addVariable('Foo', null);
+      try {
+        rule.evaluate(fact);
+      }
+      catch (err) {
+        isThrown = true;
+      }
+      return isThrown;
+    }
+
+    expect(isInvalidRuleElementErrorThrown()).to.be.equal(true);
   });
 
 });

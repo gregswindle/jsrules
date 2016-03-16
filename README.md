@@ -133,7 +133,7 @@ console.log(rule.evaluate(fact));
 
 // Outputs (as a single string; newlines added here for readability):
 // Proposition statement = (
-//  (passengerIsEconomy AND 
+//  (passengerIsEconomy AND
 //    (passengerIsGoldCardHolder OR passengerIsSilverCardHolder)
 //  ) AND (
 //    passengerCarryOnBaggageWeight <= passengerCarryOnBaggageAllowance

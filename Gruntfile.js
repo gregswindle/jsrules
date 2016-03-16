@@ -77,6 +77,14 @@ module.exports = function (grunt) {
           }
         }
       }
+    },
+    coveralls: {
+      options: {
+        force: false
+      },
+      coverallsJsrules: {
+        src: 'coverage/*.info'
+      }
     }
   });
 
@@ -86,8 +94,10 @@ module.exports = function (grunt) {
     });
 
   grunt.loadNpmTasks('grunt-mocha-istanbul');
-  grunt.registerTask('coveralls', ['mocha_istanbul:coveralls']);
+  //grunt.registerTask('coveralls', ['mocha_istanbul:coveralls']);
   grunt.registerTask('coverage', ['mocha_istanbul:coverage']);
+
+  grunt.loadNpmTasks('grunt-coveralls');
 
   grunt.loadNpmTasks('grunt-complexity');
   grunt.loadNpmTasks('grunt-contrib-jshint');

@@ -39,7 +39,4 @@ node_modules
 
 # Coveralls
 .coveralls.yml
-<<<<<<< HEAD
 coverage/
-=======
->>>>>>> c19c9e10753a4da8950408b07b22703708dc4cce

@@ -2,7 +2,7 @@
 var jsrules, expect;
 
 expect = require('expect.js');
-jsrules = require('..');
+jsrules = require('../lib');
 
 describe('jsrules.RuleContext', function() {
 

@@ -2,7 +2,7 @@
 var jsrules, expect, ruleJson, factJson;
 
 expect = require('expect.js');
-jsrules = require('..');
+jsrules = require('../lib');
 ruleJson = JSON.stringify(require('./fixtures/eligibleforupgrade.rule.json'));
 factJson = JSON.stringify(require('./fixtures/eligibleforupgrade.fact.json'));
 

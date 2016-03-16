@@ -1,8 +1,8 @@
 'use strict';
 var expect = require('expect.js'),
-    jsrules = require('..'),
+    jsrules = require('../lib'),
     proposition,
-    Proposition = require('../src/proposition'),
+    Proposition = require('../lib/proposition'),
     fact,
     result;
 

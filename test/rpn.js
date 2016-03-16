@@ -1,7 +1,7 @@
 /*
 'use strict';
 var expect = require('expect.js'),
-    jsrules = require('..');
+    jsrules = require('../lib');
 
 describe('jsrules.Proposition', function() {
 

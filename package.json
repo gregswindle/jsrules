@@ -2,7 +2,7 @@
   "name": "jsrules",
   "version": "0.1.0",
   "description": "jsrules is a rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "node_modules/.bin/grunt ci"
   },
@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/gregswindle/jsrules/issues"
   },
+  "files": [
+    "lib"
+  ],
   "dependencies": {},
   "devDependencies": {
     "expect.js": "^0.3.1",

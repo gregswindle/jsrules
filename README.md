@@ -165,6 +165,10 @@ or
 $ npm test
 ```
 
+## The origin of `jrsules`: the Rule Archetype Pattern
+
+For a detailed description of `jsrules`, please read chapter 12, “Rule archetype pattern,” in [_Enterprise Patterns and MDA: Building Better Software with Archetype Patterns and UML_](https://www.google.com/search?q=Enterprise+Patterns+and+MDA%3A+Building+Better+Software+with+Archetype+Patterns+and+UML&rlz=1C1CHFX_enUS432US432&oq=Enterprise+Patterns+and+MDA%3A+Building+Better+Software+with+Archetype+Patterns+and+UML&aqs=chrome..69i57&sourceid=chrome&ie=UTF-8). I cannot recommend this book enough, and my thanks go to its authors — Jim Arlow and Ila Neustadt — for their permission to avail the “Rule Archetype Pattern” to JavaScript developers.
+
 ## Development roadmap
 
 1. Quality assurance

@@ -3,7 +3,7 @@
 `jsrules` is a rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.
 
 [![build status](https://secure.travis-ci.org/gregswindle/jsrules.png)](http://travis-ci.org/gregswindle/jsrules)
-[![Coverage Status](https://coveralls.io/repos/github/gregswindle/jsrules/badge.svg?branch=master)](https://coveralls.io/github/gregswindle/jsrules?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/gregswindle/jsrules/badge.png?branch=master)](https://coveralls.io/github/gregswindle/jsrules?branch=master)
 
 ## Overview of `jsrules`
 
@@ -166,8 +166,8 @@ $ npm test
 ## Development roadmap
 
 1. Quality assurance
-  1. Code coverage with `istanbul`.
-  2. `travis-ci` integration.
+  1. ~~Code coverage with `istanbul`.~~
+  2. ~~`travis-ci` integration.~~
   3. Complexity reports.
 2. Persistence: create examples where
   1. `Rules` are created, read, updated, and deleted (e.g., Redis or MongoDB)

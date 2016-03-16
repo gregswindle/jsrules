@@ -11,7 +11,7 @@
 
 Rules are explicit constraints that govern actions.
 
-Rules are defined and stored as JSON. They consist of
+Rules are defined and stored as JSON. They consist of three types of `RuleElements`:
 
 * **Propositions**: statements that are either, `true`, `false`, or `null` (unknown)
 * **Variables**: symbols that represent the value of something
@@ -20,6 +20,8 @@ Rules are defined and stored as JSON. They consist of
 ### `RuleContexts` (aka "facts") and `Rules`
 
 `RuleContexts` are facts, stored in text files, databases, etc., that provide the informational context for the execution of `Rules`. `Rules` evaluate `RuleContexts`, returning a `Proposition` that tells us whether a given set of facts conform to the defined `Rule`.
+
+`RuleElements` are evaluated using [Reverse Polish Notation (RPN)](https://en.wikipedia.org/wiki/Reverse_Polish_notation). See the examples below for details.
 
 ### Example 1: Is this customer eligible for a discount?
 
@@ -151,7 +153,7 @@ $ npm install jsrules
 
 ## Specs/tests
 
-Execute unit tests with either
+Execute specs (and code coverage) with either
 
 ```bash
 $ grunt test
@@ -162,6 +164,10 @@ or
 ```bash
 $ npm test
 ```
+
+## The origin of `jrsules`: the Rule Archetype Pattern
+
+For a detailed description of `jsrules`, please read chapter 12, “Rule archetype pattern,” in [_Enterprise Patterns and MDA: Building Better Software with Archetype Patterns and UML_](https://www.google.com/search?q=Enterprise+Patterns+and+MDA%3A+Building+Better+Software+with+Archetype+Patterns+and+UML&rlz=1C1CHFX_enUS432US432&oq=Enterprise+Patterns+and+MDA%3A+Building+Better+Software+with+Archetype+Patterns+and+UML&aqs=chrome..69i57&sourceid=chrome&ie=UTF-8). I cannot recommend this book enough, and my thanks go to its authors — Jim Arlow and Ila Neustadt — for their permission to avail the “Rule Archetype Pattern” to JavaScript developers.
 
 ## Development roadmap
 

@@ -1,6 +1,6 @@
 # `jsrules`
 
-`jsrules` is a rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.
+`jsrules` is a JavaScript rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.
 
 [![build status](https://secure.travis-ci.org/gregswindle/jsrules.png)](http://travis-ci.org/gregswindle/jsrules)
 [![Coverage Status](https://coveralls.io/repos/github/gregswindle/jsrules/badge.png?branch=master)](https://coveralls.io/github/gregswindle/jsrules?branch=master)

@@ -5,6 +5,7 @@
 [![build status](https://secure.travis-ci.org/gregswindle/jsrules.png)](http://travis-ci.org/gregswindle/jsrules)
 [![Coverage Status](https://coveralls.io/repos/github/gregswindle/jsrules/badge.png?branch=master)](https://coveralls.io/github/gregswindle/jsrules?branch=master)
 [![Code Climate](https://codeclimate.com/github/gregswindle/jsrules/badges/gpa.svg)](https://codeclimate.com/github/gregswindle/jsrules)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/b6e496204f604f0e9955ca169fc8a1d7)](https://www.codacy.com/app/greg_7/jsrules)
 
 ## Overview of `jsrules`
 

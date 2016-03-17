@@ -76,8 +76,8 @@ describe('jsrules.Rule', function() {
         .addVariable('passengerCarryOnBaggageAllowance', 15.0)
         .addOperator(jsrules.Operator.LESS_THAN_OR_EQUAL_TO)
         .addOperator(jsrules.Operator.AND)
-        .addVariable('deadline', deadline)
-        .addVariable('currentDate', null)
+        .addVariable('deadline', deadline, jsrules.Variable.TYPES.dateVariable)
+        .addVariable('currentDate', null, jsrules.Variable.TYPES.dateVariable)
         .addOperator(jsrules.Operator.GREATER_THAN_OR_EQUAL_TO)
         .addVariable('passengerBaggageCount', null)
         .addVariable('passengerBaggageCountMax', 2)
@@ -103,8 +103,8 @@ describe('jsrules.Rule', function() {
          .addProposition('passengerIsSilverCardHolder', false)
          .addVariable('passengerCarryOnBaggageWeight', 10.0)
          .addVariable('passengerCarryOnBaggageAllowance', null)
-         .addVariable('deadline', null)
-         .addVariable('currentDate', currentDate)
+         .addVariable('deadline', null, jsrules.Variable.TYPES.dateVariable)
+         .addVariable('currentDate', currentDate, jsrules.Variable.TYPES.dateVariable)
          .addVariable('passengerBaggageCount', 1)
          .addVariable('passengerBaggageCountMax', null)
          .addVariable('actualPassengerCreditCardType', 'jsrules Airlines')
@@ -118,7 +118,10 @@ describe('jsrules.Rule', function() {
          .addProposition('passengerNoFlyListException', true);
 
     result = rule.evaluate(fact);
+    //console.log(JSON.stringify(rule, null, 2));
+    //console.log(JSON.stringify(fact, null, 2));
     expect(result.value).to.be.equal(true);
+    //console.log(result.toString());
     expect(result.toString()).to.be.equal('Proposition statement = ((passengerIsEconomy AND (passengerIsGoldCardHolder OR passengerIsSilverCardHolder)) AND (passengerCarryOnBaggageWeight <= passengerCarryOnBaggageAllowance)), value = true');
   });
 

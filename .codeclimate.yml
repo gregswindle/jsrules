@@ -1,0 +1,32 @@
+---
+engines:
+  duplication:
+    enabled: true
+    exclude_fingerprints:
+    - 77cf3ec6dcd0fb2fc07cd41b739458cb # Rule false duplicates
+    - eaf26f52083a49f17be256a6b13f8af0 # Rule add* methods
+    - ba86307f93a0eefa790b8203aff5c3b0 # DateVariable false duplicates
+    - 57482694efa899e396f4d90bd911652d # Variable false duplicates
+    - f5498d1f71192aa37b48acea7d4c7220 # Proposition false duplicates
+    - 002a01d5c5a8dbc2f6f2f8c0cd3244d6 # RuleContext add* methods
+    config:
+      languages:
+      - ruby
+      - javascript
+      - python
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+  - "**.rb"
+exclude_paths:
+- test/

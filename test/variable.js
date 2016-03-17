@@ -22,11 +22,17 @@ describe('jsrules.Variable', function() {
     proposition = amount.equalTo(total);
     expect(proposition.value).to.be.equal(true);
 
+    // eq alias
+    proposition = amount.eq(total);
+    expect(proposition.value).to.be.equal(true);
     done();
   });
 
   it('evaluates whether it is greater than another variable', function(done) {
     proposition = amount.greaterThan(total);
+    expect(proposition.value).to.be.equal(false);
+    // gt alias
+    proposition = amount.gt(total);
     expect(proposition.value).to.be.equal(false);
 
     amount.value = 100.11;
@@ -39,6 +45,9 @@ describe('jsrules.Variable', function() {
   it('evaluates whether it is greater than or equal to another variable', function(done) {
     proposition = amount.greaterThanOrEqualTo(total);
     expect(proposition.value).to.be.equal(true);
+    // gte alias
+    proposition = amount.gte(total);
+    expect(proposition.value).to.be.equal(true);
 
     amount.value = 100.11;
     proposition = amount.greaterThanOrEqualTo(total);
@@ -49,6 +58,9 @@ describe('jsrules.Variable', function() {
 
   it('evaluates whether it is not equal to another variable', function(done) {
     proposition = amount.notEqualTo(total);
+    expect(proposition.value).to.be.equal(false);
+    // neq alias
+    proposition = amount.neq(total);
     expect(proposition.value).to.be.equal(false);
 
     amount.value = 0;
@@ -61,6 +73,9 @@ describe('jsrules.Variable', function() {
   it('evaluates whether it is less than another variable', function(done) {
     proposition = amount.lessThan(total);
     expect(proposition.value).to.be.equal(false);
+    // lt alias
+    proposition = amount.lt(total);
+    expect(proposition.value).to.be.equal(false);
 
     amount.value = 0;
     proposition = amount.lessThan(total);
@@ -70,6 +85,9 @@ describe('jsrules.Variable', function() {
 
   it('evaluates whether it is less than or equal to another variable', function(done) {
     proposition = amount.lessThanOrEqualTo(total);
+    expect(proposition.value).to.be.equal(true);
+    // lte alias
+    proposition = amount.lte(total);
     expect(proposition.value).to.be.equal(true);
 
     amount.value = 1;

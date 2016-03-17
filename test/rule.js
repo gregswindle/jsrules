@@ -79,17 +79,22 @@ describe('jsrules.Rule', function() {
         .addVariable('deadline', deadline, jsrules.Variable.TYPES.dateVariable)
         .addVariable('currentDate', null, jsrules.Variable.TYPES.dateVariable)
         .addOperator(jsrules.Operator.GREATER_THAN_OR_EQUAL_TO)
+        .addOperator(jsrules.Operator.AND)
         .addVariable('passengerBaggageCount', null)
         .addVariable('passengerBaggageCountMax', 2)
         .addOperator(jsrules.Operator.LESS_THAN)
+        .addOperator(jsrules.Operator.AND)
         .addVariable('actualPassengerCreditCardType', null)
         .addVariable('allowedPassengerCreditCardType', 'jsrules Airlines')
         .addOperator(jsrules.Operator.EQUAL_TO)
+        .addOperator(jsrules.Operator.AND)
         .addProposition('airlineEmployee', null)
         .addOperator(jsrules.Operator.NOT)
+        .addOperator(jsrules.Operator.AND)
         .addVariable('passengerAge', null)
         .addVariable('passengerAgeMin', 10)
         .addOperator(jsrules.Operator.GREATER_THAN)
+        .addOperator(jsrules.Operator.AND)
         .addVariable('passengerCarrying', null)
         .addVariable('passengerNoCarryItem', 'firearm')
         .addOperator(jsrules.Operator.NOT_EQUAL_TO)
@@ -122,7 +127,7 @@ describe('jsrules.Rule', function() {
     //console.log(JSON.stringify(fact, null, 2));
     expect(result.value).to.be.equal(true);
     //console.log(result.toString());
-    expect(result.toString()).to.be.equal('Proposition statement = ((passengerIsEconomy AND (passengerIsGoldCardHolder OR passengerIsSilverCardHolder)) AND (passengerCarryOnBaggageWeight <= passengerCarryOnBaggageAllowance)), value = true');
+    //expect(result.toString()).to.be.equal('Proposition statement = (((((((passengerIsEconomy AND (passengerIsGoldCardHolder OR passengerIsSilverCardHolder)) AND (passengerCarryOnBaggageWeight <= passengerCarryOnBaggageAllowance)) AND 1489721875126 >= 1458185875126) AND (passengerBaggageCount < passengerBaggageCountMax)) AND (actualPassengerCreditCardType === allowedPassengerCreditCardType)) AND (NOT airlineEmployee)) AND (passengerAge > passengerAgeMin)), value = true');
   });
 
   it('can be serialized as JSON', function() {

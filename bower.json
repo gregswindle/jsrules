@@ -1,0 +1,27 @@
+{
+  "name": "jsrules",
+  "version": "0.2.5",
+  "description": "jsrules is a rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.",
+  "main": "www/jsrules.min.js",
+  "authors": [
+    "Greg Swindle <greg@swindle.net>"
+  ],
+  "keywords": [
+    "rules engine",
+    "rule engine",
+    "business rules",
+    "jsrules",
+    "javascript rule engine"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/gregswindle/jsrules",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "**/*.log",
+    "pakmanaged.js",
+    "node_modules",
+    "bower_components",
+    "coverage"
+  ]
+}

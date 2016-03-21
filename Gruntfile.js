@@ -95,6 +95,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-mocha-istanbul');
   //grunt.registerTask('coveralls', ['mocha_istanbul:coveralls']);
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.registerTask('coverage', ['mocha_istanbul:coverage']);
 
   grunt.loadNpmTasks('grunt-coveralls');

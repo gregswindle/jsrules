@@ -30,7 +30,6 @@ Rules are defined and stored as JSON. They consist of three types of `RuleElemen
 Executing a Rule is simple. Suppose we have a very simple rule that checks whether a customer is eligible for a discount. In order to be eligible, the customer simply needs to be a Gold Card holder.
 
 ```javascript
-var jsrules = require('jsrules');
 // Create the rule
 var rule = new jsrules.Rule('eligibleForDiscount');
 
@@ -60,7 +59,6 @@ Say you provide a discount to a group of six or more people:
 
 ```javascript
 // Create the rule
-var jsrules = require('jsrules');
 var rule = new jsrules.Rule('eligibleForGroupDiscount');
 
 // Declare a "placeholder" variable for the actual number of people
@@ -107,7 +105,6 @@ In this example, we’re determining whether a given airline passenger is eligib
 In order to determine this, we must compare a passenger’s facts with our rule.
 
 ```javascript
-var jsrules = require('jsrules');
 // Create the rule
 var rule = new jsrules.Rule('eligibleForUpgrade');
 
@@ -147,10 +144,16 @@ console.log(rule.evaluate(fact));
 
 ## Installation
 
-This module is installed via npm:
+### `npm`
 
 ``` bash
 $ npm install jsrules
+```
+
+### `bower`
+
+```bash
+$ bower install jsrules
 ```
 
 ## Specs/tests
@@ -167,7 +170,7 @@ or
 $ npm test
 ```
 
-## The origin of `jrsules`: the Rule Archetype Pattern
+## The origin of `jsrules`: the Rule Archetype Pattern
 
 For a detailed description of `jsrules`, please read chapter 12, “Rule archetype pattern,” in [_Enterprise Patterns and MDA: Building Better Software with Archetype Patterns and UML_](https://www.google.com/search?q=Enterprise+Patterns+and+MDA%3A+Building+Better+Software+with+Archetype+Patterns+and+UML&rlz=1C1CHFX_enUS432US432&oq=Enterprise+Patterns+and+MDA%3A+Building+Better+Software+with+Archetype+Patterns+and+UML&aqs=chrome..69i57&sourceid=chrome&ie=UTF-8). I cannot recommend this book enough, and my thanks go to its authors — Jim Arlow and Ila Neustadt — for their permission to avail the “Rule Archetype Pattern” to JavaScript developers.
 

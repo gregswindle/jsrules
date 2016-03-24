@@ -10,6 +10,10 @@ engines:
     - 57482694efa899e396f4d90bd911652d # Variable false duplicates
     - f5498d1f71192aa37b48acea7d4c7220 # Proposition false duplicates
     - 002a01d5c5a8dbc2f6f2f8c0cd3244d6 # RuleContext add* methods
+    - ae8912e42aa4a989c356e23e9afc1337 # Browserify generated code
+    - e5861ad1b8cc870599ea27c1b237c6f0 # require in namespace is clearer IMHO
+    - ae347dfa6cbc3d1bbbf685c8607f1b95 # Ignore bower mininified code dups
+    - 57687e4bace2a132bac1dd618c300f12 # Ignore bower export dups
     config:
       languages:
       - ruby

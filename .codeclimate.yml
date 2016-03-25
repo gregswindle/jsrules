@@ -16,10 +16,7 @@ engines:
     - 57687e4bace2a132bac1dd618c300f12 # Ignore bower export dups
     config:
       languages:
-      - ruby
       - javascript
-      - python
-      - php
   eslint:
     enabled: true
   fixme:
@@ -35,3 +32,4 @@ ratings:
   - "**.rb"
 exclude_paths:
 - test/
+- www/

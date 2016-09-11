@@ -91,6 +91,18 @@ describe('jsrules.Rule', function() {
    result = rule.evaluate(fact);
    expect(result.value).to.be.equal(false);
    expect(result.toString()).to.be.equal('Proposition statement = (isGoldCardMember OR isSilverCardMember), value = false');
+
+   rule = new jsrules.Rule('hasRole');
+   fact = new jsrules.RuleContext('hasRole');
+
+   rule.addVariable('roles', null).addVariable('role', 'admin').addOperator(jsrules.Operator.INCLUDES);
+   fact.addVariable('roles', ['admin', 'default', 'guest']).addVariable('role', null);
+   result = rule.evaluate(fact);
+   expect(result.value).to.be.equal(true);
+
+   fact.addVariable('roles', ['guest']).addVariable('role', null);
+   result = rule.evaluate(fact);
+   expect(result.value).to.be.equal(false);
   });
 
   it('evaluates complex rules', function() {

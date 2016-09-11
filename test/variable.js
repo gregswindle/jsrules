@@ -106,6 +106,17 @@ describe('jsrules.Variable', function() {
     done();
   });
 
+  it('evaluates whether an array includes a value', function () {
+    amount.value = [1, 2, 3, 4, 5];
+    total.value = 1;
+    proposition = amount.includes(total);
+    expect(proposition.value).to.be.equal(true);
+
+    total.value = 0;
+    proposition = amount.includes(total);
+    expect(proposition.value).to.be.equal(false);
+  });
+
   it('provides its type', function(done) {
     proposition = amount.lessThan(total);
     expect(proposition.type).to.equal('jsrules.Proposition');

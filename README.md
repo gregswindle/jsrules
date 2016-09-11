@@ -180,7 +180,4 @@ For a detailed description of `jsrules`, please read chapter 12, “Rule archety
   1. ~~Code coverage with `istanbul`.~~
   2. ~~`travis-ci` integration.~~
   3. ~~Complexity reports.~~
-2. Persistence: create examples where
-  1. `Rules` are created, read, updated, and deleted (e.g., Redis or MongoDB)
-  2. `RuleContexts` (facts) are retrieved from multiple data stores
-3. Universally-unique identifiers: create a `uuid` property for `Rules`, `RuleContexts`, and `RuleElements` (`Propositions`, `Variables`, and `Operators`)
+2. Add more operators from `lodash`, e.g., `includes`.

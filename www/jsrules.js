@@ -45,23 +45,24 @@ DateVariable = function(name, value) {
 
 module.exports = DateVariable;
 
-},{"./proposition":5}],2:[function(require,module,exports){
+},{"./proposition":6}],2:[function(require,module,exports){
 'use strict';
 
 var jsrules = {
-  Proposition         : require('./proposition'),
-  Operator            : require('./operator'),
-  InvalidOperatorError: require('./invalidoperatorerror'),
-  Variable            : require('./variable'),
-  Rule                : require('./rule'),
-  RuleContext         : require('./rulecontext'),
-  DateVariable        : require('./datevariable'),
-  ruleLoader          : require('./ruleloader')
+  Proposition            : require('./proposition'),
+  Operator               : require('./operator'),
+  InvalidOperatorError   : require('./invalidoperatorerror'),
+  InvalidRuleElementError: require('./invalidruleelementerror'),
+  Variable               : require('./variable'),
+  Rule                   : require('./rule'),
+  RuleContext            : require('./rulecontext'),
+  DateVariable           : require('./datevariable'),
+  ruleLoader             : require('./ruleloader')
 };
 
 module.exports = jsrules;
 
-},{"./datevariable":1,"./invalidoperatorerror":3,"./operator":4,"./proposition":5,"./rule":6,"./rulecontext":7,"./ruleloader":8,"./variable":9}],3:[function(require,module,exports){
+},{"./datevariable":1,"./invalidoperatorerror":3,"./invalidruleelementerror":4,"./operator":5,"./proposition":6,"./rule":7,"./rulecontext":8,"./ruleloader":9,"./variable":11}],3:[function(require,module,exports){
 'use strict';
 var InvalidOperatorError;
 
@@ -75,6 +76,19 @@ InvalidOperatorError.prototype = new TypeError();
 module.exports = InvalidOperatorError;
 
 },{}],4:[function(require,module,exports){
+'use strict';
+var InvalidRuleElementError;
+
+InvalidRuleElementError = function(message) {
+  this.name = 'InvalidRuleElementError';
+  this.message = message;
+};
+
+InvalidRuleElementError.prototype = new TypeError();
+
+module.exports = InvalidRuleElementError;
+
+},{}],5:[function(require,module,exports){
 'use strict';
 
 var Operator, validOperatorVals, InvalidOperatorError;
@@ -111,6 +125,7 @@ Operator.LESS_THAN = 'LESSTHAN';
 Operator.GREATER_THAN = 'GREATERTHAN';
 Operator.LESS_THAN_OR_EQUAL_TO = 'LESSTHANOREQUALTO';
 Operator.GREATER_THAN_OR_EQUAL_TO = 'GREATERTHANOREQUALTO';
+Operator.INCLUDES = 'INCLUDES';
 
 validOperatorVals = (function() {
   var i, keys, vals;
@@ -124,7 +139,7 @@ validOperatorVals = (function() {
 
 module.exports = Operator;
 
-},{"./invalidoperatorerror":3}],5:[function(require,module,exports){
+},{"./invalidoperatorerror":3}],6:[function(require,module,exports){
 'use strict';
 var Proposition;
 
@@ -173,18 +188,14 @@ Proposition = function(name, value) {
 
 module.exports = Proposition;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
-var Rule, stack, Operator, Proposition, Variable;
+var Rule, stack, Operator, Proposition, Variable, util;
 
 Operator = require('./operator');
 Proposition = require('./proposition');
 Variable = require('./variable');
-
-function isVariable(ruleElement) {
-  var pattern = /jsrules\.[a-z$]*Variable/ig;
-  return pattern.test(ruleElement.type);
-}
+util = require('./util');
 
 function processAnd() {
   var lhs, rhs;
@@ -262,6 +273,13 @@ function processVariable(variable) {
   stack.push(variable);
 }
 
+function processIncludes(variable) {
+  var lhs, rhs;
+  lhs = stack.pop();
+  rhs = stack.pop();
+  stack.push(rhs.includes(lhs));
+}
+
 function processOperator(operator) {
   switch (operator.name) {
     case Operator.AND:
@@ -294,6 +312,9 @@ function processOperator(operator) {
     case Operator.NOT_EQUAL_TO:
       processNotEqualTo();
       break;
+    case Operator.INCLUDES:
+      processIncludes();
+      break;
   }
 }
 
@@ -309,7 +330,7 @@ function process(elements) {
     else if ('jsrules.Proposition' === element.type) {
       processProposition(element);
     }
-    else if (isVariable(element)) {
+    else if (util.ruleElement.isVariable(element)) {
       processVariable(element);
     }
     else {
@@ -319,22 +340,35 @@ function process(elements) {
   return stack.shift();
 }
 
-
 Rule = function(name) {
   this.name = name;
   this.elements = [];
   this.addOperator = function(operator) {
-    this.elements.push(new Operator(operator));
+    if (util.ruleElement.isRuleElement(operator)) {
+      this.elements.push(operator);
+    }
+    else {
+      this.elements.push(new Operator(operator));
+    }
     return this;
   };
-  this.addProposition = function(name, value) {
-    this.elements.push(new Proposition(name, value));
+  this.addProposition = function(element, value) {
+    if (util.ruleElement.isRuleElement(element)) {
+      this.elements.push(element);
+    }
+    else {
+      this.elements.push(new Proposition(element, value));
+    }
     return this;
   };
-  this.addVariable = function(name, value, type) {
+  this.addVariable = function(element, value, type) {
     var variable;
-    type = type || Variable.TYPES.variable;
-    variable = Variable.factory(name, value, type);
+    if (util.ruleElement.isRuleElement(element)) {
+      variable = element;
+    }
+    else {
+      variable = Variable.factory(element, value, type);
+    }
     this.elements.push(variable);
     return this;
   };
@@ -343,7 +377,7 @@ Rule = function(name) {
     elements = [];
     for (i = 0; i < this.elements.length; i++) {
       element = this.elements[i];
-      if ('jsrules.Proposition' === element.type || isVariable(element)) {
+      if (util.ruleElement.isProposition(element) || util.ruleElement.isVariable(element)) {
         elem = ruleContext.findElement(element);
         if (null === element.value) {
           element.value = elem.value;
@@ -360,22 +394,33 @@ Rule = function(name) {
 
 module.exports = Rule;
 
-},{"./operator":4,"./proposition":5,"./variable":9}],7:[function(require,module,exports){
+},{"./operator":5,"./proposition":6,"./util":10,"./variable":11}],8:[function(require,module,exports){
 'use strict';
-var RuleContext, Proposition, Variable;
+var RuleContext, Proposition, Variable, util;
 
 Proposition = require('./proposition');
 Variable = require('./variable');
+util = require('./util');
 
 RuleContext = function(name) {
   this.name = name;
   this.elements = {};
-  this.addProposition = function(name, value) {
-    this.elements[name] = new Proposition(name, value);
+  this.addProposition = function(element, value) {
+    if (util.ruleElement.isRuleElement(element)) {
+      this.elements[element.name] = element;
+    }
+    else {
+      this.elements[element] = new Proposition(element, value);
+    }
     return this;
   };
-  this.addVariable = function(name, value) {
-    this.elements[name] = new Variable(name, value);
+  this.addVariable = function(element, value, type) {
+    if (util.ruleElement.isRuleElement(element)) {
+      this.elements[element.name] = element;
+    }
+    else {
+      this.elements[element] = Variable.factory(element, value, type);
+    }
     return this;
   };
   this.findElement = function(element) {
@@ -385,7 +430,7 @@ RuleContext = function(name) {
 
 module.exports = RuleContext;
 
-},{"./proposition":5,"./variable":9}],8:[function(require,module,exports){
+},{"./proposition":6,"./util":10,"./variable":11}],9:[function(require,module,exports){
 'use strict';
 var ruleLoader, ruleElementFactory, Operator, Proposition, Variable,
     DateVariable, Rule, RuleContext;
@@ -442,12 +487,57 @@ ruleLoader = {
 
 module.exports = ruleLoader;
 
-},{"./datevariable":1,"./operator":4,"./proposition":5,"./rule":6,"./rulecontext":7,"./variable":9}],9:[function(require,module,exports){
+},{"./datevariable":1,"./operator":5,"./proposition":6,"./rule":7,"./rulecontext":8,"./variable":11}],10:[function(require,module,exports){
 'use strict';
-var Proposition, Variable, DateVariable;
+var jsrules, util, InvalidRuleElementError;
+
+jsrules = require('.');
+InvalidRuleElementError = require('./invalidruleelementerror');
+
+function createRuleElement(name, value, ruleElementType) {
+  var type, RuleElement, moduleName;
+  type = ruleElementType.replace('jsrules.', '');
+  moduleName = './' + type.toLowerCase();
+  try {
+    RuleElement = require(moduleName);
+  }
+  catch (err) {
+    throw new InvalidRuleElementError('"jsrules.' + type + '" is undefined.');
+  }
+  return new RuleElement(name, value);
+}
+
+function isProposition(ruleElement) {
+  return 'jsrules.Proposition' === ruleElement.type;
+}
+
+function isRuleElement(arg) {
+  return typeof arg === 'object' && arg.type.indexOf('jsrules.') === 0;
+}
+
+function isVariable(ruleElement) {
+  var pattern = /jsrules\.[a-z$]*Variable/ig;
+  return pattern.test(ruleElement.type);
+}
+
+util = {
+  ruleElement: {
+    factory      : createRuleElement,
+    isProposition: isProposition,
+    isRuleElement: isRuleElement,
+    isVariable   : isVariable,
+  }
+};
+
+module.exports = util;
+
+},{".":2,"./invalidruleelementerror":4}],11:[function(require,module,exports){
+'use strict';
+var Proposition, Variable, DateVariable, util;
 
 Proposition = require('./proposition');
 DateVariable = require('./datevariable');
+util = require('./util');
 
 Variable = function(name, value) {
   this.name = name;
@@ -496,6 +586,11 @@ Variable = function(name, value) {
 
   this.neq = this.notEqualTo;
 
+  this.includes = function(variable) {
+    var name = '(' + this.name + ' INCLUDES ' + variable.name + ')';
+    return new Proposition(name, this.value.indexOf(variable.value) !== -1);
+  };
+
   this.toString = function() {
     return 'Variable name = ' + this.name + ', value = ' + this.value;
   };
@@ -507,13 +602,11 @@ Variable.TYPES = {
 };
 
 Variable.factory = function(name, value, type) {
-  if (Variable.TYPES.dateVariable === type) {
-    return new DateVariable(name, value);
-  }
-  return new Variable(name, value);
+  type = type || Variable.TYPES.variable;
+  return util.ruleElement.factory(name, value, type);
 };
 
 module.exports = Variable;
 
-},{"./datevariable":1,"./proposition":5}]},{},[2])(2)
+},{"./datevariable":1,"./proposition":6,"./util":10}]},{},[2])(2)
 });

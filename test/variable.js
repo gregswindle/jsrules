@@ -18,6 +18,12 @@ describe('jsrules.Variable', function() {
     done();
   });
 
+  it('creates a variable with a factory method', function() {
+    var variable = jsrules.Variable.factory('age', 1, 'jsrules.Variable');
+    expect(variable).to.be.ok();
+    expect(variable.type).to.be.equal('jsrules.Variable');
+  });
+
   it('evaluates whether it is equal to another variable', function(done) {
     proposition = amount.equalTo(total);
     expect(proposition.value).to.be.equal(true);

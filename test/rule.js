@@ -7,7 +7,7 @@ var expect = require('expect.js'),
 
 describe('jsrules.Rule', function() {
 
-  it('accepts propositions', function() {
+  it('accepts propositions with name and value arguments', function() {
     rule = new jsrules.Rule('eligibleForAirlineUpgrade');
     expect(rule).to.be.ok();
     rule.addProposition('isGoldCardMember', true)
@@ -15,35 +15,69 @@ describe('jsrules.Rule', function() {
     expect(rule.elements.length).to.be.equal(2);
   });
 
+  it('accepts propositions directly', function () {
+    var p1, p2;
+    rule = new jsrules.Rule('eligibleForAirlineUpgrade');
+    p1 = new jsrules.Proposition('isGoldCardMember', true);
+    p2 = new jsrules.Proposition('isSilverCardMember', true);
+    expect(rule).to.be.ok();
+    rule
+      .addProposition(p1)
+      .addProposition(p2);
+    expect(rule.elements.length).to.be.equal(2);
+  });
+
   it('accepts operators', function() {
+    var operator;
     rule = new jsrules.Rule('eligibleForAirlineUpgrade');
     expect(rule).to.be.ok();
-    rule.addProposition('isGoldCardMember', true)
+    rule
+      .addProposition('isGoldCardMember', true)
       .addProposition('isSilverCardMember', true)
       .addOperator(jsrules.Operator.OR);
+    expect(rule.elements.length).to.be.equal(3);
+    expect(rule.elements[2].name).to.be.equal('OR');
+
+    // Add an Operator RuleElement
+    rule = new jsrules.Rule('eligibleForAirlineUpgrade');
+    operator = new jsrules.Operator(jsrules.Operator.OR);
+    expect(rule).to.be.ok();
+    rule
+      .addProposition('isGoldCardMember', true)
+      .addProposition('isSilverCardMember', true)
+      .addOperator(operator);
     expect(rule.elements.length).to.be.equal(3);
     expect(rule.elements[2].name).to.be.equal('OR');
   });
 
   it('accepts variables', function() {
+    var variable;
     rule = new jsrules.Rule('eligibleForAirlineUpgrade');
     expect(rule).to.be.ok();
     rule.addVariable('minBaggageWeight', 15);
     expect(rule.elements.length).to.be.equal(1);
+
+    // Add variable directly
+    rule = new jsrules.Rule('eligibleForAirlineUpgrade');
+    expect(rule).to.be.ok();
+    variable = new jsrules.Variable('minBaggageWeight', 15);
+    rule.addVariable(variable);
+    expect(rule.elements.length).to.be.equal(1);
   });
 
   it('evaulates facts, aka "RuleContexts"', function() {
+    var variable = new jsrules.Variable('isSilverCardMember', true);
     fact = new jsrules.RuleContext('eligibleForAirlineUpgrade');
     rule = new jsrules.Rule('eligibleForAirlineUpgrade');
 
     rule
       .addProposition('isGoldCardMember', true)
-      .addProposition('isSilverCardMember', true)
+      .addProposition(variable)
       .addOperator(jsrules.Operator.OR);
 
    fact
-   .addProposition('isGoldCardMember', true)
-   .addProposition('isSilverCardMember', true);
+     .addProposition('isGoldCardMember', true)
+     .addProposition('isSilverCardMember', true);
 
    result = rule.evaluate(fact);
    expect(result.value).to.be.equal(true);

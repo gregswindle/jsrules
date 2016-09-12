@@ -1,6 +1,7 @@
 'use strict';
 var expect = require('expect.js'),
     jsrules = require('../lib'),
+    util = require('../lib/util'),
     fact,
     result,
     rule;
@@ -66,13 +67,13 @@ describe('jsrules.Rule', function() {
   });
 
   it('evaulates facts, aka "RuleContexts"', function() {
-    var variable = new jsrules.Variable('isSilverCardMember', true);
+    var proposition = new jsrules.Proposition('isSilverCardMember', true);
     fact = new jsrules.RuleContext('eligibleForAirlineUpgrade');
     rule = new jsrules.Rule('eligibleForAirlineUpgrade');
 
     rule
       .addProposition('isGoldCardMember', true)
-      .addProposition(variable)
+      .addProposition(proposition)
       .addOperator(jsrules.Operator.OR);
 
    fact
@@ -122,8 +123,8 @@ describe('jsrules.Rule', function() {
         .addVariable('passengerCarryOnBaggageAllowance', 15.0)
         .addOperator(jsrules.Operator.LESS_THAN_OR_EQUAL_TO)
         .addOperator(jsrules.Operator.AND)
-        .addVariable('deadline', deadline, jsrules.Variable.TYPES.dateVariable)
-        .addVariable('currentDate', null, jsrules.Variable.TYPES.dateVariable)
+        .addVariable('deadline', deadline, util.ruleElement.TYPE.dateVariable)
+        .addVariable('currentDate', null, util.ruleElement.TYPE.dateVariable)
         .addOperator(jsrules.Operator.GREATER_THAN_OR_EQUAL_TO)
         .addOperator(jsrules.Operator.AND)
         .addVariable('passengerBaggageCount', null)
@@ -154,8 +155,8 @@ describe('jsrules.Rule', function() {
          .addProposition('passengerIsSilverCardHolder', false)
          .addVariable('passengerCarryOnBaggageWeight', 10.0)
          .addVariable('passengerCarryOnBaggageAllowance', null)
-         .addVariable('deadline', null, jsrules.Variable.TYPES.dateVariable)
-         .addVariable('currentDate', currentDate, jsrules.Variable.TYPES.dateVariable)
+         .addVariable('deadline', null, util.ruleElement.TYPE.dateVariable)
+         .addVariable('currentDate', currentDate, util.ruleElement.TYPE.dateVariable)
          .addVariable('passengerBaggageCount', 1)
          .addVariable('passengerBaggageCountMax', null)
          .addVariable('actualPassengerCreditCardType', 'jsrules Airlines')

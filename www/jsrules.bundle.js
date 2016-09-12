@@ -190,8 +190,9 @@ module.exports = Proposition;
 
 },{}],7:[function(require,module,exports){
 'use strict';
-var Rule, stack, Operator, Proposition, Variable, util;
+var Rule, stack, DateVariable, Operator, Proposition, Variable, util;
 
+DateVariable = require('./datevariable');
 Operator = require('./operator');
 Proposition = require('./proposition');
 Variable = require('./variable');
@@ -324,10 +325,10 @@ function process(elements) {
   stack = [];
   for (i = 0; i < elements.length; i++) {
     element = elements[i];
-    if ('jsrules.Operator' === element.type) {
+    if (util.ruleElement.isOperator(element)) {
       processOperator(element);
     }
-    else if ('jsrules.Proposition' === element.type) {
+    else if (util.ruleElement.isProposition(element)) {
       processProposition(element);
     }
     else if (util.ruleElement.isVariable(element)) {
@@ -353,7 +354,7 @@ Rule = function(name) {
     return this;
   };
   this.addProposition = function(element, value) {
-    if (util.ruleElement.isRuleElement(element)) {
+    if (util.ruleElement.isProposition(element)) {
       this.elements.push(element);
     }
     else {
@@ -363,11 +364,12 @@ Rule = function(name) {
   };
   this.addVariable = function(element, value, type) {
     var variable;
-    if (util.ruleElement.isRuleElement(element)) {
+    if (util.ruleElement.isVariable(element)) {
       variable = element;
     }
     else {
-      variable = Variable.factory(element, value, type);
+      type = type || util.ruleElement.TYPE.variable;
+      variable = util.ruleElement.factory(element, value, type);
     }
     this.elements.push(variable);
     return this;
@@ -394,10 +396,13 @@ Rule = function(name) {
 
 module.exports = Rule;
 
-},{"./operator":5,"./proposition":6,"./util":10,"./variable":11}],8:[function(require,module,exports){
+},{"./datevariable":1,"./operator":5,"./proposition":6,"./util":10,"./variable":11}],8:[function(require,module,exports){
 'use strict';
-var RuleContext, Proposition, Variable, util;
+var RuleContext, InvalidRuleElementError, DateVariable, Proposition, Variable,
+  util;
 
+DateVariable = require('./datevariable');
+InvalidRuleElementError = require('./invalidruleelementerror');
 Proposition = require('./proposition');
 Variable = require('./variable');
 util = require('./util');
@@ -406,7 +411,7 @@ RuleContext = function(name) {
   this.name = name;
   this.elements = {};
   this.addProposition = function(element, value) {
-    if (util.ruleElement.isRuleElement(element)) {
+    if (util.ruleElement.isProposition(element)) {
       this.elements[element.name] = element;
     }
     else {
@@ -415,12 +420,15 @@ RuleContext = function(name) {
     return this;
   };
   this.addVariable = function(element, value, type) {
-    if (util.ruleElement.isRuleElement(element)) {
-      this.elements[element.name] = element;
+    var variable;
+    type = type || util.ruleElement.TYPE.variable;
+    if (util.ruleElement.isVariable(element)) {
+      variable = element;
     }
     else {
-      this.elements[element] = Variable.factory(element, value, type);
+      variable = util.ruleElement.factory(element, value, type);
     }
+    this.elements[variable.name] = variable;
     return this;
   };
   this.findElement = function(element) {
@@ -430,7 +438,7 @@ RuleContext = function(name) {
 
 module.exports = RuleContext;
 
-},{"./proposition":6,"./util":10,"./variable":11}],9:[function(require,module,exports){
+},{"./datevariable":1,"./invalidruleelementerror":4,"./proposition":6,"./util":10,"./variable":11}],9:[function(require,module,exports){
 'use strict';
 var ruleLoader, ruleElementFactory, Operator, Proposition, Variable,
     DateVariable, Rule, RuleContext;
@@ -489,26 +497,47 @@ module.exports = ruleLoader;
 
 },{"./datevariable":1,"./operator":5,"./proposition":6,"./rule":7,"./rulecontext":8,"./variable":11}],10:[function(require,module,exports){
 'use strict';
-var jsrules, util, InvalidRuleElementError;
+var util, InvalidRuleElementError, Proposition, Variable, DateVariable,
+  Operator, TYPE;
 
-jsrules = require('.');
 InvalidRuleElementError = require('./invalidruleelementerror');
+DateVariable = require('./datevariable');
+Operator = require('./operator');
+Proposition = require('./proposition');
+Variable = require('./variable');
+
+TYPE = {
+  dateVariable: 'jsrules.DateVariable',
+  operator    : 'jsrules.Operator',
+  proposition : 'jsrules.Proposition',
+  variable    : 'jsrules.Variable'
+};
 
 function createRuleElement(name, value, ruleElementType) {
-  var type, RuleElement, moduleName;
-  type = ruleElementType.replace('jsrules.', '');
-  moduleName = './' + type.toLowerCase();
-  try {
-    RuleElement = require(moduleName);
+  var type = ruleElementType.replace('jsrules.', '');
+  if ('Proposition' === type) {
+    return new Proposition(name, value);
   }
-  catch (err) {
+  else if ('Variable' === type) {
+    return new Variable(name, value);
+  }
+  else if ('DateVariable' === type) {
+    return new DateVariable(name, value);
+  }
+  else if ('Operator' === type) {
+    return new Operator(name);
+  }
+  else {
     throw new InvalidRuleElementError('"jsrules.' + type + '" is undefined.');
   }
-  return new RuleElement(name, value);
+}
+
+function isOperator(ruleElement) {
+  return TYPE.operator === ruleElement.type;
 }
 
 function isProposition(ruleElement) {
-  return 'jsrules.Proposition' === ruleElement.type;
+  return TYPE.proposition === ruleElement.type;
 }
 
 function isRuleElement(arg) {
@@ -523,21 +552,23 @@ function isVariable(ruleElement) {
 util = {
   ruleElement: {
     factory      : createRuleElement,
+    isOperator   : isOperator,
     isProposition: isProposition,
     isRuleElement: isRuleElement,
     isVariable   : isVariable,
+    TYPE         : TYPE
   }
 };
 
 module.exports = util;
 
-},{".":2,"./invalidruleelementerror":4}],11:[function(require,module,exports){
+},{"./datevariable":1,"./invalidruleelementerror":4,"./operator":5,"./proposition":6,"./variable":11}],11:[function(require,module,exports){
 'use strict';
-var Proposition, Variable, DateVariable, util;
+var Proposition, Variable, DateVariable, InvalidRuleElementError;
 
 Proposition = require('./proposition');
 DateVariable = require('./datevariable');
-util = require('./util');
+InvalidRuleElementError = require('./invalidruleelementerror');
 
 Variable = function(name, value) {
   this.name = name;
@@ -596,17 +627,7 @@ Variable = function(name, value) {
   };
 };
 
-Variable.TYPES = {
-  dateVariable: 'jsrules.DateVariable',
-  variable    : 'jsrules.Variable'
-};
-
-Variable.factory = function(name, value, type) {
-  type = type || Variable.TYPES.variable;
-  return util.ruleElement.factory(name, value, type);
-};
-
 module.exports = Variable;
 
-},{"./datevariable":1,"./proposition":6,"./util":10}]},{},[2])(2)
+},{"./datevariable":1,"./invalidruleelementerror":4,"./proposition":6}]},{},[2])(2)
 });

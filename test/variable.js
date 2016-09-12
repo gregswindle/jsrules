@@ -1,5 +1,5 @@
 'use strict';
-var expect = require('expect.js'),
+var expect = require('chai').expect,
     jsrules = require('../lib'),
     amount,
     total,
@@ -12,16 +12,9 @@ beforeEach(function() {
 
 describe('jsrules.Variable', function() {
   it('has a name and a value', function(done) {
-    expect(jsrules.Variable).to.be.ok();
     expect(amount.name).to.equal('amount');
     expect(amount.value).to.equal(100.10);
     done();
-  });
-
-  it('creates a variable with a factory method', function() {
-    var variable = jsrules.Variable.factory('age', 1, 'jsrules.Variable');
-    expect(variable).to.be.ok();
-    expect(variable.type).to.be.equal('jsrules.Variable');
   });
 
   it('evaluates whether it is equal to another variable', function(done) {

@@ -2,10 +2,12 @@
 
 `jsrules` is a JavaScript rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.
 
-[![build status](https://secure.travis-ci.org/gregswindle/jsrules.png)](http://travis-ci.org/gregswindle/jsrules)
-[![Coverage Status](https://coveralls.io/repos/github/gregswindle/jsrules/badge.png?branch=master)](https://coveralls.io/github/gregswindle/jsrules?branch=master)
-[![Code Climate](https://codeclimate.com/github/gregswindle/jsrules/badges/gpa.svg)](https://codeclimate.com/github/gregswindle/jsrules)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://www.opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/gregswindle/jsrules.svg?style=flat&branch=master)](https://travis-ci.org/gregswindle/jsrules)
+[![Coverage Status](https://coveralls.io/repos/github/gregswindle/jsrules/badge.png?style=flat&branch=master)](https://coveralls.io/github/gregswindle/jsrules?branch=master)
+[![Code Climate](https://codeclimate.com/github/gregswindle/jsrules/badges/gpa.svg?style=flatl&branch=master)](https://codeclimate.com/github/gregswindle/jsrules)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/b6e496204f604f0e9955ca169fc8a1d7)](https://www.codacy.com/app/greg_7/jsrules)
+[![NSP Status](https://nodesecurity.io/orgs/gregswindle/projects/8f3b03ea-faaa-4844-ab12-d2bb32067f96/badge?style=flat)](https://nodesecurity.io/orgs/gregswindle/projects/8f3b03ea-faaa-4844-ab12-d2bb32067f96)
 
 ## Overview of `jsrules`
 

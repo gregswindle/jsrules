@@ -1,4 +1,8 @@
-# `jsrules`
+# 🚨 `jsrules` is now<br>🚨 [`commonality/archetypes-rules`](https://github.com/commonality/archetypes-rules). 
+
+<details><summary>View the <strong>jsrules</strong> README anyway...</summary>
+
+<hr>
 
 `jsrules` is a JavaScript rule engine that models formal propositional logic. It allows you to separate conditional logic from source code and database triggers in a reusable package, where explicit rules can be independently defined and managed.
 
@@ -183,3 +187,5 @@ For a detailed description of `jsrules`, please read chapter 12, “Rule archety
   2. ~~`travis-ci` integration.~~
   3. ~~Complexity reports.~~
 2. Add more operators from `lodash`, e.g., `includes`.
+
+</details>
